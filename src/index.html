@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LEGO Dimensions Character Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Left Panel: Character Pool with Search -->
+    <div class="panel left-panel">
+      <h2>🎮 Character Pool</h2>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search characters...">
+      </div>
+      <div id="character-list" class="character-list">
+        <p style="padding: 15px; color: #999;">Loading characters...</p>
+      </div>
+    </div>
+
+    <!-- Center Panel: Canvas -->
+    <div class="panel center-panel">
+      <h2>📍 Canvas (Press both triggers to toggle this)</h2>
+      <div id="canvas" class="canvas">
+        <div style="text-align: center; color: #999;">
+          <p>Drag characters here to place them</p>
+          <p style="font-size: 12px; opacity: 0.7;">Right-click to remove</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Character Details -->
+    <div class="panel right-panel">
+      <h2>📋 Details</h2>
+      <div id="character-details" class="character-details">
+        <p>Select a character to view details</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
