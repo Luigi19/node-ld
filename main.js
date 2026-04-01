@@ -1,4 +1,3 @@
-// Copy this entire content
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -55,56 +54,8 @@ function loadCharactersFromFile() {
   }
 }
 
-function startGamepadPolling() {
-  let previousBothTriggersPressed = false;
-  let pollInterval = null;
-
-  const pollGamepad = () => {
-    if (!navigator.getGamepads) {
-      pollInterval = setTimeout(pollGamepad, 100);
-      return;
-    }
-
-    const gamepads = navigator.getGamepads();
-    if (gamepads.length === 0) {
-      pollInterval = setTimeout(pollGamepad, 100);
-      return;
-    }
-
-    const gamepad = gamepads[0];
-    if (!gamepad) {
-      pollInterval = setTimeout(pollGamepad, 100);
-      return;
-    }
-
-    const LT = gamepad.buttons[6]?.pressed || (gamepad.axes[2] > 0.5);
-    const RT = gamepad.buttons[7]?.pressed || (gamepad.axes[5] > 0.5);
-
-    const bothTriggersPressed = LT && RT;
-
-    if (bothTriggersPressed && !previousBothTriggersPressed) {
-      console.log('Both triggers pressed - toggling GUI');
-      guiVisible = !guiVisible;
-      if (mainWindow) {
-        if (guiVisible) {
-          mainWindow.show();
-          mainWindow.focus();
-        } else {
-          mainWindow.hide();
-        }
-      }
-    }
-
-    previousBothTriggersPressed = bothTriggersPressed;
-    pollInterval = setTimeout(pollGamepad, 100);
-  };
-
-  pollGamepad();
-}
-
 app.on('ready', () => {
   createWindow();
-  startGamepadPolling();
 });
 
 app.on('window-all-closed', () => {
@@ -119,6 +70,7 @@ app.on('activate', () => {
   }
 });
 
+// IPC Handlers
 ipcMain.handle('get-characters', async () => {
   const characters = loadCharactersFromFile();
   return characters;
